@@ -13,8 +13,6 @@ interface Restaurant {
 }
 
 export default function RestaurantCard({restaurant}: { restaurant: Restaurant }) {
-  console.log(restaurant)
-
   return (
     <div className="border-b flex pb-5 ml-4">
       <img src={restaurant.main_image} alt="" className="w-44 h-36 rounded" />
