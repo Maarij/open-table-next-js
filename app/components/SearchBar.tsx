@@ -2,6 +2,7 @@
 
 import {useRouter} from "next/navigation";
 import {useState} from "react";
+import Link from "next/link";
 
 export default function SearchBar() {
   const router = useRouter();
