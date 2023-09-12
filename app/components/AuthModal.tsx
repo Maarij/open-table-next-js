@@ -1,11 +1,12 @@
 "use client"
 
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from "@/app/components/AuthModalInputs";
 import useAuth from "@/hooks/useAuth";
+import {AuthenticationContext} from "@/app/context/AuthContext";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -19,6 +20,7 @@ const style = {
 };
 
 export default function AuthModal({isSignIn}: { isSignIn: boolean }) {
+  const {error} = useContext(AuthenticationContext);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -68,6 +70,7 @@ export default function AuthModal({isSignIn}: { isSignIn: boolean }) {
 
   return (
     <div>
+      <h1>{error}</h1>
       <button className={`${renderContent("bg-blue-400 text-white", "")} border p-1 px-4 rounded mr-3`}
               onClick={handleOpen}>
         {renderContent("Sign in", "Sign up")}
