@@ -6,6 +6,7 @@ import emptyStar from '../public/icons/empty-star.png'
 import Image from "next/image";
 import {Review} from "@prisma/client";
 import {calculateReviewRatingAverage} from "@/app/util/calculateReviewRatingAverage";
+import {random} from "nanoid";
 
 export default function Stars({
   reviews,
@@ -31,7 +32,7 @@ export default function Stars({
     }
 
     return stars.map((star) => {
-      return <Image src={star} alt={''} className={"w-4 h-4 mr-1"} />
+      return <Image key={Math.random()} src={star} alt={''} className={"w-4 h-4 mr-1"} />
     })
   }
 
