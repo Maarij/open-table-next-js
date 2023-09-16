@@ -99,6 +99,9 @@ export default function AuthModal({isSignIn}: { isSignIn: boolean }) {
                 <p className={"text-sm"}>
                   {renderContent("Sign In", "Create Account")}
                 </p>
+                <p>
+                  {data?.firstName} {data?.lastName}
+                </p>
               </div>
 
               <div className={"m-auto"}>
