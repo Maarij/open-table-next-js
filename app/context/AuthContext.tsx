@@ -1,7 +1,6 @@
 "use client";
 
-import React, {useState, createContext, useEffect} from "react";
-import useAuth from "@/hooks/useAuth";
+import React, {createContext, useEffect, useState} from "react";
 import {getCookie} from "cookies-next";
 import axios from "axios";
 
@@ -37,7 +36,7 @@ export default function AuthContext({
   children: React.ReactNode
 }) {
   const [authState, setAuthState] = useState<State>({
-    loading: false,
+    loading: true,
     data: null,
     error: null
   });
