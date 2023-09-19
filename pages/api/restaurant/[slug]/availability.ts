@@ -18,7 +18,7 @@ export default async function handler(
   if (!day || !time || !partySize) {
     return res.status(400).json({
       errorMessage: "Invalid data provided"
-    })
+    });
   }
 
   const searchTimes = times.find(t => {
@@ -28,7 +28,7 @@ export default async function handler(
   if (!searchTimes) {
     return res.status(400).json({
       errorMessage: "Invalid data provided"
-    })
+    });
   }
 
   const bookings = await prisma.booking.findMany({
@@ -56,5 +56,22 @@ export default async function handler(
     }, {})
   });
 
-  return res.json({searchTimes, bookings, bookingTablesObj});
+  const restaurant = await prisma.restaurant.findUnique({
+    where: {
+      slug
+    },
+    select: {
+      tables: true
+    }
+  });
+
+  if (!restaurant) {
+    return res.status(400).json({
+      errorMessage: "Invalid data provided"
+    });
+  }
+
+  const tables = restaurant.tables;
+
+  return res.json({searchTimes, bookings, bookingTablesObj, tables});
 }
