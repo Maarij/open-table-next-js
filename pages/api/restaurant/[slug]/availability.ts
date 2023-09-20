@@ -88,7 +88,18 @@ export default async function handler(
       }
       return true;
     });
+  });
+
+  const availabilities = searchTimesWithTables.map(t => {
+    const sumSeats = t.tables.reduce((sum, table) => {
+      return sum + table.seats;
+    }, 0);
+
+    return {
+      time: t.time,
+      available: sumSeats >= parseInt(partySize)
+    };
   })
 
-  return res.json({searchTimes, bookings, bookingTablesObj, tables, searchTimesWithTables});
+  return res.json({searchTimes, bookings, bookingTablesObj, tables, searchTimesWithTables, availabilities});
 }
