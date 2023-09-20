@@ -1,23 +1,40 @@
 "use client"
 
-import {partySize, times} from "@/app/data";
+import {partySizes, times} from "@/app/data";
 import ReactDatePicker from "react-datepicker";
 import {useState} from "react";
+import useAvailabilities from "@/hooks/useAvailabilities";
 
 interface ReservationCardProps {
   openTime: string,
-  closeTime: string
+  closeTime: string,
+  slug: string
 }
 
-export default function ReservationCard({openTime, closeTime}: ReservationCardProps) {
+export default function ReservationCard({openTime, closeTime, slug}: ReservationCardProps) {
+  const {data, loading, error, fetchAvailabilities} = useAvailabilities();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [time, setTime] = useState(openTime);
+  const [partySize, setPartySize] = useState("2");
+  const [day, setDay] = useState(new Date().toISOString().split("T")[0]);
 
   const handleChangeDate = (date: Date | null) => {
     if (date) {
+      setDay(date.toISOString().split("T")[0])
       return setSelectedDate(date);
     }
     return setSelectedDate(null);
   };
+
+  const handleClick = () => {
+    console.log("1");
+    fetchAvailabilities({
+      slug,
+      day,
+      time,
+      partySize
+    });
+  }
 
   const filterTimeByRestaurantOpenWindow = () => {
     const timesWithinWindow: typeof times = [];
@@ -49,9 +66,9 @@ export default function ReservationCard({openTime, closeTime}: ReservationCardPr
 
       <div className="my-3 flex flex-col">
         <label htmlFor="">Party size</label>
-        <select name="" className="py-3 border-b font-light" id="">
-          {partySize.map(size => (
-            <option value={size.value}>{size.label}</option>
+        <select name="" className="py-3 border-b font-light" id="" value={partySize} onChange={(e) => setPartySize(e.target.value)}>
+          {partySizes.map(size => (
+            <option key={size.value} value={size.value}>{size.label}</option>
           ))}
         </select>
       </div>
@@ -68,16 +85,16 @@ export default function ReservationCard({openTime, closeTime}: ReservationCardPr
 
         <div className="flex flex-col w-[48%]">
           <label htmlFor="">Time</label>
-          <select name="" id="" className="py-3 border-b font-light">
+          <select name="" id="" className="py-3 border-b font-light" value={time} onChange={(e) => setTime(e.target.value)}>
             {filterTimeByRestaurantOpenWindow().map(time => (
-              <option value={time.time}>{time.displayTime}</option>
+              <option key={time.time} value={time.time}>{time.displayTime}</option>
             ))}
           </select>
         </div>
       </div>
 
       <div className="mt-5">
-        <button className="bg-red-600 rounded w-full px-4 text-white font-bold h-16">
+        <button className="bg-red-600 rounded w-full px-4 text-white font-bold h-16" onClick={handleClick}>
           Find a Time
         </button>
       </div>
