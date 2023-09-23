@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import * as React from "react";
+import useReservation from "@/hooks/useReservation";
 
 export default function Form() {
   const [inputs, setInputs] = useState({
@@ -14,6 +15,7 @@ export default function Form() {
   });
 
   const [disabled, setDisabled] = useState(true);
+  const {error, loading, createReservation} = useReservation();
 
   useEffect(() => {
     if (inputs.bookerFirstName
