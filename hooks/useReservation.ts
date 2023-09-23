@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import axios from "axios";
 import {Time} from "@/app/util/convertToDisplayTime";
 
@@ -17,7 +17,8 @@ export default function useReservation() {
       bookerPhone,
       bookerEmail,
       bookerOccasion,
-      bookerRequests
+      bookerRequests,
+      setDidBook
     }: {
       slug: string;
       partySize: string;
@@ -29,6 +30,7 @@ export default function useReservation() {
       bookerEmail: string;
       bookerOccasion: string;
       bookerRequests: string;
+      setDidBook:  Dispatch<SetStateAction<boolean>>
     }) => {
 
     setLoading(true);
@@ -52,6 +54,7 @@ export default function useReservation() {
         });
 
       setLoading(false);
+      setDidBook(true);
       return response.data;
     } catch (error: any) {
       setLoading(false);
